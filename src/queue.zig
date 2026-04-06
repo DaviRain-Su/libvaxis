@@ -226,7 +226,7 @@ fn sleepyPop(q: *Queue(u8, 2), state: *atomic.Value(u8)) !void {
     // still full and the push in the other thread is still blocked
     // waiting for space.
     try Thread.yield();
-    std.Thread.sleep(10 * std.time.ns_per_ms);
+    std.Thread.sleep(.{ .nanoseconds = 10 * std.time.ns_per_ms });
     // Finally, let that other thread go.
     try std.testing.expectEqual(1, q.pop());
 
@@ -235,7 +235,7 @@ fn sleepyPop(q: *Queue(u8, 2), state: *atomic.Value(u8)) !void {
         try Thread.yield();
     // But we want to ensure that there's a second push waiting, so
     // here's another sleep.
-    std.Thread.sleep(10 * std.time.ns_per_ms);
+    std.Thread.sleep(.{ .nanoseconds = 10 * std.time.ns_per_ms });
 
     // Another spurious wake...
     q.not_full.signal();
@@ -243,7 +243,7 @@ fn sleepyPop(q: *Queue(u8, 2), state: *atomic.Value(u8)) !void {
     // And another chance for the other thread to see that it's
     // spurious and go back to sleep.
     try Thread.yield();
-    std.Thread.sleep(10 * std.time.ns_per_ms);
+    std.Thread.sleep(.{ .nanoseconds = 10 * std.time.ns_per_ms });
 
     // Pop that thing and we're done.
     try std.testing.expectEqual(2, q.pop());
@@ -262,9 +262,9 @@ test "Fill, block, fill, block" {
     queue.push(1);
     queue.push(2);
     state.store(1, .release);
-    const now = std.time.milliTimestamp();
+    const now = @divTrunc(std.time.nanoTimestamp(), std.time.ns_per_ms);
     queue.push(3); // This one should block.
-    const then = std.time.milliTimestamp();
+    const then = @divTrunc(std.time.nanoTimestamp(), std.time.ns_per_ms);
 
     // Just to make sure the sleeps are yielding to this thread, make
     // sure it took at least 5ms to do the push.
@@ -283,14 +283,14 @@ test "Fill, block, fill, block" {
 fn sleepyPush(q: *Queue(u8, 1), state: *atomic.Value(u8)) !void {
     // Try to ensure the other thread has already started trying to pop.
     try Thread.yield();
-    std.Thread.sleep(10 * std.time.ns_per_ms);
+    std.Thread.sleep(.{ .nanoseconds = 10 * std.time.ns_per_ms });
 
     // Spurious wake
     q.not_full.signal();
     q.not_empty.signal();
 
     try Thread.yield();
-    std.Thread.sleep(10 * std.time.ns_per_ms);
+    std.Thread.sleep(.{ .nanoseconds = 10 * std.time.ns_per_ms });
 
     // Stick something in the queue so it can be popped.
     q.push(1);
@@ -299,7 +299,7 @@ fn sleepyPush(q: *Queue(u8, 1), state: *atomic.Value(u8)) !void {
         try Thread.yield();
     // Give the other thread time to block again.
     try Thread.yield();
-    std.Thread.sleep(10 * std.time.ns_per_ms);
+    std.Thread.sleep(.{ .nanoseconds = 10 * std.time.ns_per_ms });
 
     // Spurious wake
     q.not_full.signal();
@@ -332,7 +332,7 @@ test "2 readers" {
     const t1 = try Thread.spawn(cfg, readerThread, .{&queue});
     const t2 = try Thread.spawn(cfg, readerThread, .{&queue});
     try Thread.yield();
-    std.Thread.sleep(10 * std.time.ns_per_ms);
+    std.Thread.sleep(.{ .nanoseconds = 10 * std.time.ns_per_ms });
     queue.push(1);
     queue.push(1);
     t1.join();

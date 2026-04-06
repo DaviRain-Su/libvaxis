@@ -223,7 +223,7 @@ pub const SoftwrapIterator = struct {
         // Advance the hard iterator
         if (self.index == self.line.len) {
             self.line = self.hard_iter.next() orelse return null;
-            self.line = std.mem.trimRight(u8, self.line, " \t");
+            self.line = std.mem.trimRightS(u8, self.line, " \t");
             self.index = 0;
         }
 

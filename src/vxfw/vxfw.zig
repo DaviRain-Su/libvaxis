@@ -62,7 +62,7 @@ pub const Tick = struct {
     }
 
     pub fn in(ms: u32, widget: Widget) Command {
-        const now = std.time.milliTimestamp();
+        const now = @divTrunc(std.time.nanoTimestamp(), std.time.ns_per_ms);
         return .{ .tick = .{
             .deadline_ms = now + ms,
             .widget = widget,
@@ -541,7 +541,7 @@ test "All widgets have a doctest and refAllDecls test" {
     // it easy to fail CI early, or spot bad tests vs non-existant tests
     const excludes = &[_][]const u8{ "vxfw.zig", "App.zig" };
 
-    var cwd = try std.fs.cwd().openDir("./src/vxfw", .{ .iterate = true });
+    var cwd = try std.fs.cwd.openDir("./src/vxfw", .{ .iterate = true });
     var iter = cwd.iterate();
     defer cwd.close();
     outer: while (try iter.next()) |file| {

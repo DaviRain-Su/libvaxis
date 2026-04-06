@@ -2,7 +2,7 @@ const std = @import("std");
 const fmt = std.fmt;
 const math = std.math;
 const base64 = std.base64.standard.Encoder;
-const zigimg = @import("zigimg");
+pub const zigimg = @import("zigimg");
 
 const Window = @import("Window.zig");
 

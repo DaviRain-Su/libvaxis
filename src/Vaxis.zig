@@ -2,7 +2,7 @@ const std = @import("std");
 const builtin = @import("builtin");
 const atomic = std.atomic;
 const base64Encoder = std.base64.standard.Encoder;
-const zigimg = @import("zigimg");
+pub const zigimg = @import("zigimg");
 const IoWriter = std.io.Writer;
 
 const Cell = @import("Cell.zig");

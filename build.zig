@@ -5,11 +5,7 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
     const root_source_file = b.path("src/main.zig");
 
-    // Dependencies
-    const zigimg_dep = b.dependency("zigimg", .{
-        .optimize = optimize,
-        .target = target,
-    });
+    // Dependencies - zigimg optional (only for image support)
     const uucode_dep = b.dependency("uucode", .{
         .target = target,
         .optimize = optimize,
@@ -27,7 +23,6 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    vaxis_mod.addImport("zigimg", zigimg_dep.module("zigimg"));
     vaxis_mod.addImport("uucode", uucode_dep.module("uucode"));
 
     // Examples
