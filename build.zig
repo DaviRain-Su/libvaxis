@@ -89,7 +89,6 @@ pub fn build(b: *std.Build) void {
             .target = target,
             .optimize = optimize,
             .imports = &.{
-                .{ .name = "zigimg", .module = zigimg_dep.module("zigimg") },
                 .{ .name = "uucode", .module = uucode_dep.module("uucode") },
             },
         }),
