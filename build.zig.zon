@@ -2,15 +2,15 @@
     .name = .vaxis,
     .fingerprint = 0x14fbbb94fc556305,
     .version = "0.5.1",
-    .minimum_zig_version = "0.15.1",
+    .minimum_zig_version = "0.16.0-dev",
     .dependencies = .{
         .zigimg = .{
             .url = "git+https://github.com/zigimg/zigimg#eab2522c023b9259db8b13f2f90d609b7437e5f6",
             .hash = "zigimg-0.1.0-8_eo2vUZFgAAtN1c6dAO5DdqL0d4cEWHtn6iR5ucZJti",
         },
         .uucode = .{
-            .url = "git+https://github.com/jacobsandlund/uucode#5f05f8f83a75caea201f12cc8ea32a2d82ea9732",
-            .hash = "uucode-0.1.0-ZZjBPj96QADXyt5sqwBJUnhaDYs_qBeeKijZvlRa0eqM",
+            .url = "git+https://github.com/DaviRain-Su/uucode#1c500981b05568c0482375efe090f47c4d0bb521",
+            .hash = "uucode-0.2.0-ZZjBPjFz5mYm4g2hHj2hN5k3p6r8t1v4x0b2d5f7g9jm",
         },
     },
     .paths = .{
